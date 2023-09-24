@@ -1,6 +1,8 @@
 package webdriver;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.locators.RelativeLocator;
 import org.testng.annotations.AfterClass;
@@ -30,7 +32,11 @@ public class Topic_04_Relative_Locator {
     @Test
     public void TC_01_Relative() {
     driver.get("https://demo.nopcommerce.com/login?returnUrl=%2F");
-        RelativeLocator
+        // Login button
+        By loginButton = By.cssSelector("button.login-button");
+        WebElement loginButtonElement = driver.findElement(By.cssSelector("button.login-button"));
+
+        RelativeLocator.with(By.tagName("label")).above(loginButtonElement);
 
     }
 
