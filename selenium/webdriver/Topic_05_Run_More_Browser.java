@@ -27,7 +27,6 @@ public class Topic_05_Run_More_Browser {
 
     @Test
     public void TC_02_Run_On_Chrome() {
-        System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.manage().window().maximize();
