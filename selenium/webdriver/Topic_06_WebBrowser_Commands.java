@@ -1,14 +1,14 @@
 package webdriver;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.logging.LogType;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.sql.Driver;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,9 +50,18 @@ public class Topic_06_WebBrowser_Commands {
         checkboxes.get(1).click();
 
         // tại sao lại cần lấy dữ liệu ra để làm cái gì?
-        String loginPageUrl = driver.getCurrentUrl();
+        // dùng để lấy url của màn hình/ page hiện tại
+        driver.getCurrentUrl();
+
+        // Lấy ra source html/ css/ JS của page hiện tại
+        // Verify 1 cách tương đối
         driver.getPageSource();
+        Assert.assertTrue(driver.getPageSource().contains("test 123"));
+
+        // lấy ra title của page hiện tại
         driver.getTitle();
+
+        //Lấy ra id của tab hiện tại
         driver.getWindowHandle();
         driver.getWindowHandles();
 
@@ -60,12 +69,48 @@ public class Topic_06_WebBrowser_Commands {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.facebook.com");
 
         // Dùng lại nhiều lần (ít nhất là 2 lần)
-        Assert.assertEquals(loginPageUrl, "https://www.facebook.com");
+        String loginPageUrl = "https://www.facebook.com";
         driver.get(loginPageUrl);
-    }
 
-    @Test
-    public void TC_02_() {
+        // Cookies - Framework
+        driver.manage().getCookies();
+
+        // Get ra những log ở dev tool - Famework
+        driver.manage().logs().get(LogType.DRIVER);
+
+        // Apply cho việc tìm Element (findElement/findElements)
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+
+        // CHờ cho page được load xong
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+
+        // Set trước khi dung với thư viện JavaScripExecution
+        // Inject 1 đoạn code JS vào trong Browser/ Element
+        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(30));
+
+        // Selenium 4 mới có
+        driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().getPageLoadTimeout();
+        driver.manage().timeouts().getScriptTimeout();
+
+        // chạy full màn hình
+        driver.manage().window().fullscreen();
+        driver.manage().window().maximize();
+        driver.manage().window().minimize();
+
+        // Test Pesponsive (Resolution)
+        driver.manage().window().setSize(new Dimension(1366, 768));
+        driver.manage().window().setSize(new Dimension(1920, 1080));
+
+        driver.manage().window().getSize();
+
+        // set cho browser ở vị trí nào so với độ phân giải nàm hình (run trên màn hình có kích thước bao nhiêu)
+        driver.manage().window().setPosition(new Point(0, 0));
+        driver.manage().window().getPosition();
+
+        driver.navigate();
+
+        driver.switchTo();
 
     }
 
