@@ -47,7 +47,7 @@ public class Topic_05_Assert {
         Assert.assertNull(name);
 
         name = "Testing";
-        Assert.assertNotNull();
+        Assert.assertNotNull("");
 
     }
 

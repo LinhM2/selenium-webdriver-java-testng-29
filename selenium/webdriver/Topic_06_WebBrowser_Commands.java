@@ -1,6 +1,8 @@
 package webdriver;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.logging.LogType;
 import org.testng.Assert;
@@ -8,6 +10,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Driver;
 import java.time.Duration;
 import java.util.List;
@@ -18,40 +22,45 @@ public class Topic_06_WebBrowser_Commands {
 
     @BeforeClass
     public void beforeClass() {
-        driver = new FirefoxDriver();
+        // muốn dùng được th phải khởi tạo
+        // nếu k khởi tạo sẽ gặp lỗi
+        driver = new FirefoxDriver(); //**
+        /*driver = new ChromeDriver();
+        driver = new EdgeDriver();*/
+
+
         //driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30)); //**
         driver.manage().window().maximize();
     }
 
     @Test
-    public void TC_01_() {
+    public void TC_01_Browser() throws MalformedURLException {
         // Mở ra 1 page url bất kỳ
-        driver.get("http://live.techpanda.org/index.php/customer/account/login/");
-        driver.get("https://www.facebook.com");
+        driver.get("https://www.facebook.com"); //**
 
         // nếu như c 1 tab/window thì tính năng tương tự quit
         // Nhiều hơn 1 thì nó đóng cái nó đang active
-        driver.close();
+        driver.close(); //*
 
         //đóng browser
-        driver.quit();
+        driver.quit(); //**
 
         // 2 hàm sẽ bị ảnh hưởng timeout của implicitlyWait: findElement/findElements
 
         // Nó sẽ đi tìm với loại by nào vả trả về với element nếu như được tìm thấy (webElement)
         // k được tìm thấy: Fail tại step này - thow exception: noSuchElementExcetion
         // Trả về 1 element, nếu có nhiều thì nó xũng chỉ lấy 1
-        WebElement emailAddressTextbox = driver.findElement(By.id("pass"));
+        WebElement emailAddressTextbox = driver.findElement(By.id("pass")); //**
 
         // nó sẽ đi tìm với loại By nào trả về 1 danh sách emlement ếu như được tìm thấy (List webelement)
         // k được tìm thấy: không bị fail - trả vè 1 list rỗng (0 element)
-        List<WebElement> checkboxes = driver.findElements(By.xpath("//input[@type='checkbox']"));
+        List<WebElement> checkboxes = driver.findElements(By.xpath("//input[@type='checkbox']")); //**
         checkboxes.get(1).click();
 
         // tại sao lại cần lấy dữ liệu ra để làm cái gì?
         // dùng để lấy url của màn hình/ page hiện tại
-        driver.getCurrentUrl();
+        driver.getCurrentUrl(); //*
 
         // Lấy ra source html/ css/ JS của page hiện tại
         // Verify 1 cách tương đối
@@ -62,8 +71,8 @@ public class Topic_06_WebBrowser_Commands {
         driver.getTitle();
 
         //Lấy ra id của tab hiện tại
-        driver.getWindowHandle();
-        driver.getWindowHandles();
+        driver.getWindowHandle(); //*
+        driver.getWindowHandles(); //*
 
         // Nếu chỉ dùng 1 lần thì không khai báo biến
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.facebook.com");
@@ -73,13 +82,13 @@ public class Topic_06_WebBrowser_Commands {
         driver.get(loginPageUrl);
 
         // Cookies - Framework
-        driver.manage().getCookies();
+        driver.manage().getCookies(); //*
 
         // Get ra những log ở dev tool - Famework
-        driver.manage().logs().get(LogType.DRIVER);
+        driver.manage().logs().get(LogType.DRIVER); //*
 
         // Apply cho việc tìm Element (findElement/findElements)
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30)); //**
 
         // CHờ cho page được load xong
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
@@ -95,7 +104,7 @@ public class Topic_06_WebBrowser_Commands {
 
         // chạy full màn hình
         driver.manage().window().fullscreen();
-        driver.manage().window().maximize();
+        driver.manage().window().maximize(); //**
         driver.manage().window().minimize();
 
         // Test Pesponsive (Resolution)
@@ -108,9 +117,40 @@ public class Topic_06_WebBrowser_Commands {
         driver.manage().window().setPosition(new Point(0, 0));
         driver.manage().window().getPosition();
 
-        driver.navigate();
+        // ĐIều huớng trang web
+        driver.navigate().back();
+        driver.navigate().refresh();
+        driver.navigate().forward();
 
-        driver.switchTo();
+        // Thao tác với history của web page (back/forward)
+        driver.navigate().to("https://www.facebook.com");
+        driver.navigate().to(new URL("https://www.facebook.com"));
+
+        driver.get("https://www.facebook.com");
+
+        // Alert/ Window (tab)/ Frame (iFrame) //*
+        driver.switchTo().alert().accept();
+        driver.switchTo().alert().dismiss();
+        driver.switchTo().alert().getText();
+        driver.switchTo().alert().sendKeys("");
+
+        // lấy ra ID của cửa sổ/tab hiện tại //*
+        // Handle window/ tab
+        String homePageWindowID = driver.getWindowHandle();
+        driver.switchTo().window(homePageWindowID);
+
+        // Switch/ handle frame/ (iframe) //*
+        // Index/ ID (name)/ Element
+        driver.switchTo().frame(0);
+        driver.switchTo().frame("636363636");
+        driver.switchTo().frame(driver.findElement(By.id("")));
+
+        // Switch về html chứa frame trước đó
+        driver.switchTo().defaultContent();
+
+        // Từ frame trong đi ra frame ngoài chứa nó
+        driver.switchTo().parentFrame();
+
 
     }
 
