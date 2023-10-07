@@ -17,6 +17,7 @@ public class Topic_07_WebElement_Commands_02 {
     public void beforeClass() {
         driver = new FirefoxDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().window().maximize();
 
     }
 
@@ -91,6 +92,13 @@ public class Topic_07_WebElement_Commands_02 {
         driver.findElement(By.cssSelector("input#email")).sendKeys("automation99@gmail.com");
 
         // case1: number
+
+        //step scroll xuống SignUp button
+        WebElement signUpButton = driver.findElement(By.cssSelector("button#create-account-enabled"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", signUpButton);
+        sleepInSeconds(2);
+        signUpButton.click();
+
         driver.findElement(By.cssSelector("input#new_password")).sendKeys("12345");
         sleepINSeconds(2);
 
@@ -126,6 +134,8 @@ public class Topic_07_WebElement_Commands_02 {
 
     }
 
+    private void sleepInSeconds(int i) {
+    }
 
     @AfterClass
     public void afterClass() {
