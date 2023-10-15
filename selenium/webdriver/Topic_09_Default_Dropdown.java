@@ -2,6 +2,7 @@ package webdriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -28,7 +29,7 @@ public class Topic_09_Default_Dropdown {
 
     @Test
     public void TC_01_Register() {
-        driver.findElement(By.className("a.ico-register")).click();
+        driver.findElement(By.cssSelector("a.ico-register")).click();
 
         driver.findElement(By.id("FirstName")).sendKeys(firstName);
         driver.findElement(By.id("LastName")).sendKeys(lastName);
@@ -75,14 +76,14 @@ public class Topic_09_Default_Dropdown {
         driver.findElement(By.cssSelector("a.ico-account")).click();
         sleepINSeconds(2);
 
-        Assert.assertEquals(driver.findElement(By.cssSelector("input#firstname")).getAttribute("value"),firstName);
-        Assert.assertEquals(driver.findElement(By.cssSelector("input#lastname")).getAttribute("value"),lastName);
+        Assert.assertEquals(driver.findElement(By.id("FirstName")).getAttribute("value"),firstName);
+        Assert.assertEquals(driver.findElement(By.id("LastName")).getAttribute("value"),lastName);
 
         Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthDay"))).getFirstSelectedOption().getText(), day);
         Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthMonth"))).getFirstSelectedOption().getText(), month);
         Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthYear"))).getFirstSelectedOption().getText(), year);
 
-        Assert.assertEquals(driver.findElement(By.cssSelector("input#email")).getAttribute("value"),emailAddress);
+        Assert.assertEquals(driver.findElement(By.cssSelector("input#Email")).getAttribute("value"),emailAddress);
         Assert.assertEquals(driver.findElement(By.cssSelector("input#Company")).getAttribute("value"),companyName);
 
     }
