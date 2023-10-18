@@ -32,34 +32,40 @@ public class Topic_10_Custom_Dropdown {
     }
 
     @Test
-    public void TC_01_() {
+    public void TC_01_JQuery() {
         driver.get("https://jqueryui.com/resources/demos/selectmenu/default.html");
 
-        // 1 - Click vào 1 thẻ để cho nó xổ hết các item bên trong dropdown ra
-        driver.findElement(By.xpath("//span[@id='number-button']")).click();
+/*        // 1 - Click vào 1 thẻ để cho nó xổ hết các item bên trong dropdown ra
+        driver.findElement(By.cssSelector("span#number-button")).click();
         // 2.1 - Nó sẽ xổ ra chứa hết tất cả các item
-        // 2.2 - Nó sẽ xổ ra nhưng chỉ cứa 1 phần và đang load thêm
+        // 2.2 - Nó sẽ xổ ra nhưng chỉ chứa 1 phần và đang load thêm
         // Ngàn/Triệu record
         // CHờ cho nó xổ ra tất cả các item trong dropdown
         // Xuất hiện đầy đủ trong HTML
         explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("ul#number-menu div")));
-
-        List<WebElement> allItem = driver.findElements(By.cssSelector("ul#number-menu div"));
+        List<WebElement> allItems = driver.findElements(By.cssSelector("ul#number-menu div"));
         // allItem đang lưu trữ 19 item bên trong
-        for (WebElement item: allItem) {
+        for (WebElement item: allItems) {
             //String
             if (item.getText().equals("15")) {
                 item.click();
                 break; // thoát vòng lặp (for/ while/ do-while/ swich-case)
             }
+        }*/
 
 
+        selectItemInDropdown("span#speed-button","ul#speed-menu div","Faster");
+        sleepINSeconds(3);
 
-        }
+        selectItemInDropdown("span#files-button","ul#files-menu div","ui.jQuery.js");
+        sleepINSeconds(3);
 
+        selectItemInDropdown("span#number-button","ul#number-menu div","15");
+        sleepINSeconds(3);
 
-        // 3. - Nếu như item cần chọn nó hiển thị thì click vào
-        // 4. - Trước khi click cần kiểm tra nếu như text của item bằng cới item cần chọn thì click vào
+        selectItemInDropdown("span#salutation-button","ul#salutation-menu div","Dr.");
+        sleepINSeconds(3);
+
 
     }
 
@@ -75,6 +81,19 @@ public class Topic_10_Custom_Dropdown {
             Thread.sleep(timeINSecond * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    // Những dữ liệu để truyền vào sẽ xem là tham số
+    public void selectItemInDropdown(String parentCss, String childItemCss, String itemTextExpected) {
+        driver.findElement(By.cssSelector(parentCss)).click(); // "span#number-button"
+        explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childItemCss))); // "ul#number-menu div"
+        List<WebElement> allItems = driver.findElements(By.cssSelector(childItemCss));
+        for (WebElement item: allItems) {
+            if (item.getText().equals(itemTextExpected)) {
+                item.click();
+                break;
+            }
         }
     }
 }
