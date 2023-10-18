@@ -130,8 +130,6 @@ public class Topic_07_WebElement_Commands_02 {
         Assert.assertTrue(driver.findElement(By.cssSelector("li[class='special-char not-completed']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("li[class='8-char not-completed']")).isDisplayed());
 
-
-
     }
 
     private void sleepInSeconds(int i) {
