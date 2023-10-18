@@ -66,7 +66,6 @@ public class Topic_10_Custom_Dropdown {
         selectItemInDropdown("span#salutation-button","ul#salutation-menu div","Dr.");
         sleepINSeconds(3);
 
-
     }
 
 
