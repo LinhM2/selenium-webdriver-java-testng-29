@@ -34,18 +34,19 @@ public class Topic_09_Default_Dropdown {
         driver.findElement(By.id("FirstName")).sendKeys(firstName);
         driver.findElement(By.id("LastName")).sendKeys(lastName);
 
-        // dayDropdown dropdown
+        // dayDropdown dropdown (đặt biến)
         Select dayDropdown = new Select(driver.findElement(By.name("DateOfBirthDay")));
 
-        // Chọn ngày
+        // 1 - Chọn ngày
         dayDropdown.selectByVisibleText(day);
 
-        // Verify dropdown này là single (k phải multiple)
+        // 2 - Verify dropdown này là single (k phải multiple)
         Assert.assertFalse(dayDropdown.isMultiple());
 
-        // Verify số lượng item trong Dropdown này là 32 item
+        // 3 - Verify số lượng item trong Dropdown này là 32 item
         Assert.assertEquals(dayDropdown.getOptions().size(),32);
 
+        // month và year làm tương tự như dayDropdown ở trên
         new Select(driver.findElement(By.name("DateOfBirthMonth"))).selectByVisibleText(month);
         new Select(driver.findElement(By.name("DateOfBirthYear"))).selectByVisibleText(year);
 
@@ -76,9 +77,11 @@ public class Topic_09_Default_Dropdown {
         driver.findElement(By.cssSelector("a.ico-account")).click();
         sleepINSeconds(2);
 
+        // 1 - Verify giá trị trong attribute
         Assert.assertEquals(driver.findElement(By.id("FirstName")).getAttribute("value"),firstName);
         Assert.assertEquals(driver.findElement(By.id("LastName")).getAttribute("value"),lastName);
 
+        // 2 - Verify Default Dropdown
         Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthDay"))).getFirstSelectedOption().getText(), day);
         Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthMonth"))).getFirstSelectedOption().getText(), month);
         Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthYear"))).getFirstSelectedOption().getText(), year);
@@ -91,7 +94,7 @@ public class Topic_09_Default_Dropdown {
 
     @AfterClass
     public void afterClass() {
-        driver.quit();
+        //driver.quit();
     }
 
     public void sleepINSeconds(long timeINSecond) {

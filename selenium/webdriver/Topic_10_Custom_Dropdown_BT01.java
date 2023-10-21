@@ -62,25 +62,33 @@ public class Topic_10_Custom_Dropdown_BT01 {
 
     @Test
     public void TC_04_Editable() {
+        // search sendkey trong custom Dropdown
+
         driver.get("https://react.semantic-ui.com/maximize/dropdown-example-search-selection/");
-        selectItemInDropdown("input.search", "div.item span", "Algeria");
+        selectItemInEditableDropdown("input.search", "div.item span", "Algeria");
         Assert.assertEquals(driver.findElement(By.cssSelector("div.divider.text")).getText(),"Algeria");
-        selectItemInDropdown("input.search", "div.item span", "Australia");
+        selectItemInEditableDropdown("input.search", "div.item span", "Australia");
         Assert.assertEquals(driver.findElement(By.cssSelector("div.divider.text")).getText(),"Australia");
-        selectItemInDropdown("input.search", "div.item span", "Belgium");
+        selectItemInEditableDropdown("input.search", "div.item span", "Belgium");
         Assert.assertEquals(driver.findElement(By.cssSelector("div.divider.text")).getText(),"Belgium");
     }
 
-/*    @Test
+    @Test
     public void TC_05_Nopcommerce() {
+        // áp dụng đối với Default Dropdown *
+
         driver.get("https://demo.nopcommerce.com/register");
+
         selectItemInDropdown("select[name='DateOfBirthDay']", "select[name='DateOfBirthDay'] option", "26");
         Assert.assertTrue(driver.findElement(By.cssSelector("select[name='DateOfBirthDay'] option[value='26']")).isSelected());
+
         selectItemInDropdown("select[name='DateOfBirthMonth']", "select[name='DateOfBirthMonth'] option", "July");
         Assert.assertTrue(driver.findElement(By.cssSelector("select[name='DateOfBirthMonth'] option[value='7']")).isSelected());
+
         selectItemInDropdown("select[name='DateOfBirthYear']", "select[name='DateOfBirthYear'] option", "1994");
         Assert.assertTrue(driver.findElement(By.cssSelector("select[name='DateOfBirthYear'] option[value='1994']")).isSelected());
-    }*/
+        // dropdown default sẽ k thay đổi element trc và sau khi chọn, nên cần dùng .isSelected()
+    }
 
     @AfterClass
     public void afterClass() {
@@ -90,6 +98,20 @@ public class Topic_10_Custom_Dropdown_BT01 {
     public void selectItemInDropdown(String parentCss, String childItemCss, String itemTextExpected) {
         driver.findElement(By.cssSelector(parentCss)).click();
         List<WebElement> allItems = explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childItemCss)));
+        for (WebElement item: allItems) {
+            if (item.getText().equals(itemTextExpected)) {
+                item.click();
+                break;
+            }
+        }
+    }
+
+    // NHập text vào dropdown
+    public void selectItemInEditableDropdown(String parentCss, String childItemCss, String itemTextExpected) {
+        driver.findElement(By.cssSelector(parentCss)).clear();
+        driver.findElement(By.cssSelector(parentCss)).sendKeys(itemTextExpected);
+        List<WebElement> allItems = explicitWait.until(ExpectedConditions.
+                presenceOfAllElementsLocatedBy(By.cssSelector(childItemCss)));
         for (WebElement item: allItems) {
             if (item.getText().equals(itemTextExpected)) {
                 item.click();
