@@ -83,7 +83,6 @@ public class Topic_10_Custom_Dropdown {
         }
     }
 
-    // Những dữ liệu để truyền vào sẽ xem là tham số
     public void selectItemInDropdown(String parentCss, String childItemCss, String itemTextExpected) {
         driver.findElement(By.cssSelector(parentCss)).click(); // "span#number-button"
         explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childItemCss))); // "ul#number-menu div"
