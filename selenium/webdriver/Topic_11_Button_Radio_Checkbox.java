@@ -4,7 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+<<<<<<< HEAD
 import org.openqa.selenium.support.Color;
+=======
+>>>>>>> origin/master
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -20,7 +23,10 @@ public class Topic_11_Button_Radio_Checkbox {
     public void beforeClass() {
         driver = new FirefoxDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+<<<<<<< HEAD
         driver.manage().window().maximize();
+=======
+>>>>>>> origin/master
     }
 
     @Test
@@ -32,17 +38,26 @@ public class Topic_11_Button_Radio_Checkbox {
         // Verify button bị disable khi chưa click vào checkbox
         Assert.assertFalse(registButton.isEnabled());
 
+<<<<<<< HEAD
         // CLick vào checkbox
         driver.findElement(By.cssSelector("input#chinhSach")).click();
+=======
+        driver.findElement(By.cssSelector("input#chinhSach"));
+>>>>>>> origin/master
 
         // Verify button đã được enable sau khi click vào checkbox
         Assert.assertTrue(registButton.isEnabled());
 
+<<<<<<< HEAD
         /*// Lấy ra mã màu nền của button
+=======
+        // Lấy ra mã màu nền của button
+>>>>>>> origin/master
         String registerBackgroundRGB = registButton.getCssValue("background-color");
         System.out.println("Background color RGB = " + registerBackgroundRGB);
 
         // Conver từ kiểu String (mã RGB) qua kiểu color
+<<<<<<< HEAD
         Color registerBackgroundColor = Color.fromString(registerBackgroundRGB);
 
         // Conver qua kiểu Hexa
@@ -80,16 +95,41 @@ public class Topic_11_Button_Radio_Checkbox {
 
         // Verify login button = background Color khi Enable
         Assert.assertEquals(Color.fromString(loginButton.getCssValue("background-color")).asHex().toLowerCase(),"#c92127");
+=======
+
+
+        // Conver qua kiểu Hexa
+        String registerBackgroundHexa = registButton.getCssValue("background-color");
+        System.out.println("Background color Hexa = " + registerBackgroundHexa);
+
+        Assert.assertEquals(registerBackgroundHexa,"#ef5a00");
+
+        // 1 - viêt 1 hàm để tự conver qua hexa
+        // 2 - dùng thư viện (selenium color)
+
+
+
+>>>>>>> origin/master
 
     }
 
     @Test
+<<<<<<< HEAD
     public void TC_03_Demos_Checkbox_and_Radio() {
         // Bài tập 2 > Topic 09
+=======
+    public void TC_02_() {
+
+    }
+
+    @Test
+    public void TC_03_() {
+>>>>>>> origin/master
 
     }
 
     @AfterClass
+<<<<<<< HEAD
     public void afterClass() {driver.quit();
     }
 
@@ -103,3 +143,9 @@ public class Topic_11_Button_Radio_Checkbox {
 }
 
 // làm Bt ở Topic 09 [Exercise] Button/Radiobutton/Checkbox/ Alert
+=======
+    public void afterClass() {
+        driver.quit();
+    }
+}
+>>>>>>> origin/master
