@@ -10,10 +10,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.awt.*;
 import java.time.Duration;
 
-public class Topic_11_Button_Radio_Checkbox {
+public class Topic_11_Button {
     WebDriver driver;
 
     @BeforeClass
@@ -88,13 +87,8 @@ public class Topic_11_Button_Radio_Checkbox {
         Assert.assertEquals(Color.fromString(loginButton.getCssValue("background-color")).asHex().toLowerCase(),"#c92127");
 
 
-
     }
 
-    @Test
-    public void TC_03_Demos_Checkbox_and_Radio() {
-
-    }
 
     @AfterClass
     public void afterClass() {driver.quit();}
