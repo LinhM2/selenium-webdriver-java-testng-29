@@ -1,6 +1,7 @@
 package webdriver;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -126,11 +127,48 @@ public class Topic_12_Checkbox_Radio {
 
     @Test
     public void TC_04_Custom_Radio() {
+        // TC 05: thẻ input bị che mất
         driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
-        // 1h
+
+        // dùng thẻ input để click => dùng JavascriptExecutor (JS)
+        By registerRadio = By.xpath("//div[text()='Đăng ký cho người thân']/preceding-sibling::div//input");
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click();", driver.findElement(registerRadio));
+        // dùng thẻ input để verify
+        Assert.assertTrue(driver.findElement(registerRadio).isSelected());
 
     }
 
+    @Test
+    public void TC_05_Custom_Google_Docs() {
+        // TC 06- Topic 09:
+
+        driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
+
+        By canThoRadio = By.xpath("//div[@aria-label='Cần Thơ']");
+
+        // Verify radio is not selected (có thể dùng 1 trong 2 cách dưới)
+        Assert.assertEquals(driver.findElement(canThoRadio).getAttribute("aria-checked"),"false"); // cách 1: hay dùng cách này
+        // Assert.assertTrue(driver.findElement(By.xpath("//div[@aria-label='Cần Thơ' and @aria-checked='false']")).isDisplayed()); // cách 2
+
+        driver.findElement(canThoRadio).click();
+        sleepINSeconds(2);
+
+        // Verify radio is selected (có thể dùng 1 trong 2 cách dưới)
+        Assert.assertEquals(driver.findElement(canThoRadio).getAttribute("aria-checked"),"true"); // cách 1: hay dùng cách này
+        // Assert.assertTrue(driver.findElement(By.xpath("//div[@aria-label='Cần Thơ' and @aria-checked='true']")).isDisplayed()); // cách 2
+
+        // 2 Checkbox
+        By quangNamCheckox = By.xpath("//div[@aria-label='Quảng Nam']");
+        By quangBinhCheckbox = By.xpath("//div[@aria-label='Quảng Bình']");
+
+        driver.findElement(quangNamCheckox).click();
+        driver.findElement(quangBinhCheckbox).click();
+        sleepINSeconds(2);
+
+        Assert.assertEquals(driver.findElement(quangNamCheckox).getAttribute("aria-checked"),"true");
+        Assert.assertEquals(driver.findElement(quangBinhCheckbox).getAttribute("aria-checked"),"true");
+
+    }
 
     @AfterClass
     public void afterClass() {
@@ -160,5 +198,7 @@ public class Topic_12_Checkbox_Radio {
             sleepINSeconds(2);
         }
     }
+
+    // TB topic 09
 
 }
