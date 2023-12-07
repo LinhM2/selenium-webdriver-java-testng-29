@@ -1,8 +1,10 @@
 package webdriver;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -113,6 +115,26 @@ public class Topic_14_Actions {
         List<WebElement> allNumbers = driver.findElements(By.cssSelector("li.ui-state-default"));
         Assert.assertEquals(allNumbers.size(),20);
 
+        // CHọn 1->12 theo đủ hàng / cột
+        actions.clickAndHold(allNumbers.get(0)).moveToElement(allNumbers.get(11)).perform();
+
+        // CHọn từ 13->15
+        actions.keyDown(Keys.CONTROL).perform(); // Nhấn phím ctrl xuống (chưa nhả ra)
+
+        actions.click(allNumbers.get(12))
+                .click(allNumbers.get(13))
+                .click(allNumbers.get(14))
+                .keyUp(Keys.CONTROL).perform();
+    }
+
+    @Test
+    public void TC_05_DoubleClick() {
+        driver.get("https://automationfc.github.io/basic-form/index.html");
+
+        actions.doubleClick(driver.findElement(By.xpath("//button[text()='Double click me']"))).perform();
+        sleepINSeconds(2);
+
+        Assert.assertEquals(driver.findElement(By.cssSelector("p@demo")).getText(),"Hello Automation Guys!");
 
     }
 
