@@ -1,17 +1,16 @@
 package webdriver;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.*;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class Topic_14_Actions {
         // actions đang giả lập lại hành vi của Mouse/ keyboard/ Pen nên khi n đang chạy mình k sư dụng các thiết bị này
         actions = new Actions(driver);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
     }
 
     @Test
@@ -134,11 +133,112 @@ public class Topic_14_Actions {
         actions.doubleClick(driver.findElement(By.xpath("//button[text()='Double click me']"))).perform();
         sleepINSeconds(2);
 
-        Assert.assertEquals(driver.findElement(By.cssSelector("p@demo")).getText(),"Hello Automation Guys!");
+        Assert.assertEquals(driver.findElement(By.cssSelector("p#demo")).getText(),"Hello Automation Guys!");
 
     }
 
-    @AfterClass
+    @Test
+    public void TC_06_RightClick() {
+        // BT7 topic 10
+        driver.get("https://swisnl.github.io/jQuery-contextMenu/demo.html");
+
+        // chưa click chuột phải thì nó đang không hiển thị (invisible)
+        Assert.assertFalse(driver.findElement(By.cssSelector("li.context-menu-icon-paste")).isDisplayed());
+
+        // Click chuột phải
+        actions.contextClick(driver.findElement(By.cssSelector("span.context-menu-one"))).perform();
+        sleepINSeconds(2);
+
+        // Mới click chuột phải - các element được visible
+        Assert.assertTrue(driver.findElement(By.cssSelector("li.context-menu-icon-paste")).isDisplayed());
+
+        // hover lên element
+        actions.moveToElement(driver.findElement(By.cssSelector("li.context-menu-icon-paste"))).perform();
+        sleepINSeconds(2);
+
+        // -> được cập nhật lại class của element này - kiểm tra sự kiện hover thành công
+        Assert.assertTrue(driver.findElement(By.cssSelector("li.context-menu-icon-paste.context-menu-hover.context-menu-visible")).isDisplayed());
+
+        // Click lên paste
+        actions.click(driver.findElement(By.cssSelector("li.context-menu-icon-paste"))).perform();
+        sleepINSeconds(2);
+
+        // accept alert
+        driver.switchTo().alert().accept();
+        sleepINSeconds(2);
+
+        // Kiểm tra Paste không còn hiển thị
+        Assert.assertFalse(driver.findElement(By.cssSelector("li.context-menu-icon-paste")).isDisplayed());
+    }
+
+    @Test
+    public void TC_07_DragDropHTML4() {
+        // BT8 topic 10
+        driver.get("https://automationfc.github.io/kendo-drag-drop/");
+
+        // đặt 2 biến
+        WebElement smallCircle = driver.findElement(By.cssSelector("div#draggable"));
+        WebElement bigCircle = driver.findElement(By.cssSelector("div#droptarget"));
+
+        // thực hiện kéo thả
+        actions.dragAndDrop(smallCircle, bigCircle).perform();
+        sleepINSeconds(2);
+
+        // Verify text
+        Assert.assertEquals(bigCircle.getText(),"You did great!");
+
+        // verfy màu nền
+        Assert.assertEquals(Color.fromString(bigCircle.getCssValue("background-color")).asHex().toLowerCase(),"#03a9f4");
+
+    }
+
+    @Test
+    public void TC_08_DragDropHTML5_Css() throws IOException {
+        // BT9 topic 10
+        driver.get("https://automationfc.github.io/drag-drop-html5/");
+
+        // đặt 2 biến
+        WebElement columnA = driver.findElement(By.cssSelector("div#column-a"));
+        WebElement columnB = driver.findElement(By.cssSelector("div#column-b"));
+
+        // lấy đường dẫn của Folder
+        String projectPath = System.getProperty("user.dir");
+        String dragAndDropFilePath = projectPath + "/dragAndDrop/drag_and_drop_helper.js";
+        String jsContentFile = getContentFile(dragAndDropFilePath);
+
+        // Thực thi đoạn lệnh JS
+        //javascriptExecutor.executeScript(jsContentFile); //-> lỗi 1h36 video 33
+
+
+    }
+
+    @Test
+    public void TC_09_DragDropHTML5_Xpath() {
+        // BT9 topic 10
+        driver.get("https://automationfc.github.io/drag-drop-html5/");
+
+    }
+
+    // Hàm đọc nội dụng cho file drag_and_drop_helper.js
+    public String getContentFile(String filePath) throws IOException {
+        Charset cs = Charset.forName("UTF-8");
+        FileInputStream stream = new FileInputStream(filePath);
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(stream, cs));
+            StringBuilder builder = new StringBuilder();
+            char[] buffer = new char[8192];
+            int read;
+            while ((read = reader.read(buffer, 0, buffer.length)) > 0) {
+                builder.append(buffer, 0, read);
+            }
+            return builder.toString();
+        } finally {
+            stream.close();
+        }
+    }
+
+
+        @AfterClass
     public void afterClass() {
         driver.quit();
     }

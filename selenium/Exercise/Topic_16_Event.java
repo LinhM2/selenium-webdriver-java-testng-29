@@ -1,11 +1,13 @@
-package Exericise;
+package Exercise;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -19,7 +21,7 @@ public class Topic_16_Event {
 
     @BeforeClass
     public void beforeClass() {
-        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.manage().window().maximize();
@@ -50,15 +52,19 @@ public class Topic_16_Event {
 
         // dropdown client
         selectItemInEditableDropdown("div#s2id_clients_dropdown","div#select2-drop input","ul.select2-results span", "Hauck Ltd");
-        sleepINSeconds(3);
+        sleepINSeconds(1);
 
         checkToElement(By.xpath("//label[text()='All team members']/preceding-sibling::input"));
         checkToElement(By.xpath("//label[text()='Repeat']/parent::div//input"));
         driver.findElement(By.cssSelector("input#repeat_every")).sendKeys("1");
         driver.findElement(By.cssSelector("input#no_of_cycles")).sendKeys("1");
+        // chưa chọn field day(s)
         driver.findElement(By.cssSelector("div.color-palet span[data-color=\"#2d9cdb\"]")).click();
 
         driver.findElement(By.cssSelector("button.btn-primary")).click();
+        sleepINSeconds(1);
+
+        Assert.assertTrue(driver.findElement(By.cssSelector("svg.feather.feather-check")).isDisplayed());
 
 
     }
@@ -70,8 +76,7 @@ public class Topic_16_Event {
 
 
     @AfterClass
-    public void afterClass() {driver.quit();
-    }
+    public void afterClass() {driver.quit();}
 
     public void sleepINSeconds(long timeINSecond) {
         try {
@@ -81,6 +86,16 @@ public class Topic_16_Event {
         }
     }
 
+    public void selectItemInDropdown(String parentCss, String childItemCss, String itemTextExpected) {
+        driver.findElement(By.cssSelector(parentCss)).click();
+        List<WebElement> allItems = explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childItemCss)));
+        for (WebElement item: allItems) {
+            if (item.getText().equals(itemTextExpected)) {
+                item.click();
+                break;
+            }
+        }
+    }
     public void selectItemInEditableDropdown(String parentCss, String senkeyCss, String childItemCss, String itemTextExpected) {
         driver.findElement(By.cssSelector(parentCss)).click();
         driver.findElement(By.cssSelector(senkeyCss)).sendKeys(itemTextExpected);
