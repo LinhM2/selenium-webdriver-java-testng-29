@@ -116,6 +116,7 @@ public class Topic_22_Wait_01_Element_Status {
         sleepINSeconds(3);
 
         // điều kiện 3: element k xuất hiện trên UI và cũng k có trong cây html
+        //
         explicitWait.until(ExpectedConditions.stalenessOf(reconfirmEmail));
 
     }
