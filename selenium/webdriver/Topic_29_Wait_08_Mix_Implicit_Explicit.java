@@ -2,6 +2,7 @@ package webdriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,7 +18,9 @@ public class Topic_29_Wait_08_Mix_Implicit_Explicit {
 
     @BeforeClass
     public void beforeClass() {
-        driver = new FirefoxDriver();
+
+       // driver = new FirefoxDriver();
+        driver = new ChromeDriver();
     }
 
     @Test
