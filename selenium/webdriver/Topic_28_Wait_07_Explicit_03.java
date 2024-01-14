@@ -15,6 +15,16 @@ import java.time.Duration;
 public class Topic_28_Wait_07_Explicit_03 {
     WebDriver driver;
     WebDriverWait explicitWait;
+    String projectPath = System.getProperty("user.dir");
+
+    String linh1921Name = "linh1921.jpg";
+    String linh1922Name = "linh1922.jpg";
+    String linh1923Name = "linh1923.jpg";
+
+    String linh1921FilePath = projectPath + "\\uploadFiles\\" + linh1921Name;
+    String linh1922FilePath = projectPath + "\\uploadFiles\\" + linh1922Name;
+    String linh1923FilePath = projectPath + "\\uploadFiles\\" + linh1923Name;
+
 
     @BeforeClass
     public void beforeClass() {
@@ -49,14 +59,30 @@ public class Topic_28_Wait_07_Explicit_03 {
         Assert.assertTrue(explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.spinner-border"))));
 
         // Wait + Click
-        explicitWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.spinner-border"))).click();
+        explicitWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a.ajaxLink>button"))).click();
 
         // Wait + verify spinner icon biến mất
         Assert.assertTrue(explicitWait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.spinner-border")))));
 
-        driver.findElement(By.cssSelector("input[type='file']")).sendKeys();
-        // 1h20 -
+        driver.findElement(By.cssSelector("input[type='file']")).sendKeys(linh1921FilePath + "\n" + linh1922FilePath + "\n" + linh1923FilePath );
 
+        // Wait + verify spinner icon biến mất
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.spinner-border")))));
+
+        // Wait Progress Bar biến mất
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.progress")))));
+
+        explicitWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.mainUploadSuccessLink a.ajaxLink"))).click();
+
+        // Wait + Verify button Play có tại từng hình được upload
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + linh1921Name + "']/ancestor::div[contains(@class,'text-md-start')]/following-sibling::div//span[text()='Play']"))).isDisplayed());
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + linh1922Name + "']/ancestor::div[contains(@class,'text-md-start')]/following-sibling::div//span[text()='Play']"))).isDisplayed());
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + linh1923Name + "']/ancestor::div[contains(@class,'text-md-start')]/following-sibling::div//span[text()='Play']"))).isDisplayed());
+
+        // Wait + Verify button Download có tại từng hình được upload
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + linh1921Name + "']/ancestor::div[contains(@class,'text-md-start')]/following-sibling::div//span[text()='Download']"))).isDisplayed());
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + linh1922Name + "']/ancestor::div[contains(@class,'text-md-start')]/following-sibling::div//span[text()='Download']"))).isDisplayed());
+        Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + linh1923Name + "']/ancestor::div[contains(@class,'text-md-start')]/following-sibling::div//span[text()='Download']"))).isDisplayed());
 
     }
 

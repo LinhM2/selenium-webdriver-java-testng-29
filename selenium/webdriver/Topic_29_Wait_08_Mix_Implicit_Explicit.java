@@ -72,7 +72,7 @@ public class Topic_29_Wait_08_Mix_Implicit_Explicit {
         // polling mỗi nửa s tìm lại 1 lần
         // khi hết timeout sẽ đánh fail testcase và throw exception: NoSuchElementException
         // -> k dùng implicit nên k find được element
-        explicitWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("input#email111"))));
+        explicitWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("input#email1111"))));
     }
     @Test
     public void TC_06_Mix_Implicit_Explicit() {
@@ -81,7 +81,7 @@ public class Topic_29_Wait_08_Mix_Implicit_Explicit {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        // Check case k tìm thấy element > thời gian testcase fail < 8
+        // Check case k tìm thấy element > thời gian testcase fail <= 8
         // implicit sẽ ưu tiên chạy trước, rồi Explicit sẽ chạy mà k cần chờ implicit chạy xong (Explicit sẽ chạy sau implicit nửa đến 1s)
         explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#email111")));
     }

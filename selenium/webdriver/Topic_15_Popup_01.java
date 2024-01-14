@@ -123,6 +123,13 @@ public class Topic_15_Popup_01 {
         sleepINSeconds(2);
 
        // Assert.assertTrue(driver.findElement(By.cssSelector("")));
+        Assert.assertTrue(driver.findElement(By.xpath("//div[text()='Sign Up']/parent::div/parent::div")).isDisplayed());
+
+        driver.findElement(By.xpath("//div[text()='Sign Up']/parent::div/preceding-sibling::img")).click();
+        sleepINSeconds(2);
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        Assert.assertEquals(driver.findElements(By.xpath("//div[text()='Sign Up']/parent::div/parent::div")).size(), 0);
 
 
     }
