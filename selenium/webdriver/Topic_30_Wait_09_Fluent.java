@@ -11,63 +11,69 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import javax.lang.model.element.Element;
 import java.time.Duration;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 
 public class Topic_30_Wait_09_Fluent {
     WebDriver driver;
-    WebDriverWait explicitWait;
-    FluentWait<WebDriver> fluentDriver;
-    FluentWait<WebElement> fluentElement;
-    FluentWait<String> fluentString;
+    FluentWait<WebDriver> fluentDriver; // khai báo cho testcase 01
+    FluentWait<WebElement> fluentElement; // khai báo cho testcase 02
+
 
     @BeforeClass
     public void beforeClass() {
         driver = new FirefoxDriver();
 
-        // Time - Default Polling Time: 0.5s
-        explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        // Time - Polling tự set: 0.3s
-        explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10), Duration.ofMillis(300));
+        fluentDriver = new FluentWait<WebDriver>(driver); // Khởi tạo cho fluentDriver (TC 01)
 
     }
 
     @Test
     public void TC_01_() {
-        // KHỞI TẠO
-        fluentDriver = new FluentWait<WebDriver>(driver);
+        // Topic 15/16 [Exercise]: TC 09
+        driver.get("https://automationfc.github.io/dynamic-loading/");
 
-        fluentElement = new FluentWait<WebElement>(driver.findElement(By.cssSelector("")));
+        driver.findElement(By.cssSelector("div#start>button")).click();
 
-        fluentString = new FluentWait<String>("Hello");
+        // chờ cho helloWorld text hiển thị trong vòng 10s
+        // Setting
+        fluentDriver.withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchElementException.class);
 
-        // SETTING
-        // Tổng time
-        fluentDriver.withTimeout(Duration.ofSeconds(10));
-
-        //Polling time
-        fluentDriver.pollingEvery(Duration.ofMillis(300));
-
-        // Ignore NoSuchElement exceptions
-        fluentDriver.ignoring(NoSuchElementException.class);
-
-        // Ignore TimeoutException
-        fluentDriver.ignoring(TimeoutException.class);
-
-        //CONDITION
-
-
+        // Condition
+        fluentDriver.until(new Function<WebDriver, Boolean>() {
+            @Override
+            public Boolean apply(WebDriver webDriver) {
+                return driver.findElement(By.xpath("//div[@id='finish']/h4[text()='Hello World!']")).isDisplayed();
+            }
+        });
 
     }
 
     @Test
     public void TC_02_() {
+        // Topic 15/16 [Exercise]: TC 08 fluent Wait
+        driver.get("https://automationfc.github.io/fluent-wait/");
 
-    }
+        WebElement countDownTime = driver.findElement(By.cssSelector("div#javascript_countdown_time"));
 
-    @Test
-    public void TC_03_() {
+        // Khởi tạo fluentElement cho testcase 02
+        fluentElement = new FluentWait<WebElement>(countDownTime);
+
+        // setting
+        fluentElement.withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchElementException.class);
+        // Điều kiện
+        fluentElement.until(new Function<WebElement, Boolean>() {
+            @Override
+            public Boolean apply(WebElement webElement) {
+                return webElement.getText().endsWith("00");
+            }
+        });
 
     }
 
