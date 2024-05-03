@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class Topic_06_WebBrowser_Commands_01 {
+    // Khai báo drive
     WebDriver driver;
 
     @BeforeClass

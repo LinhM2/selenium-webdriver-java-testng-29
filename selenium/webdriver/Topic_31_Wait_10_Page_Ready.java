@@ -35,6 +35,8 @@ public class Topic_31_Wait_10_Page_Ready {
         driver.findElement(By.cssSelector("input#Password")).sendKeys("admin");
         driver.findElement(By.cssSelector("button.login-button")).click();
 
+
+
         // đang học 42p
 
     }

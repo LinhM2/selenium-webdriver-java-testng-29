@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class Topic_26_Wait_05_Explicit_01_Knowledge {
     WebDriver driver;
 
-    WebDriverWait explicitWait; // Khai báo chưa khởi tạo
+    WebDriverWait explicitWait; // Khai báo
 
     @BeforeClass // Precondition - khởi tạo dữ liệu/ data test/ page class/ variable
     public void beforeClass() {
